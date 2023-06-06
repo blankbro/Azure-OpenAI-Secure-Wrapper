@@ -43,13 +43,13 @@ git pull
 docker image rm -f chatgpt-api
 
 # 打包新镜像
-docker build . -f server/ChatGPT-API.Dockerfile -t chatgpt-api
+docker build . -f ChatGPT-API.Dockerfile -t chatgpt-api
 
 # 停止旧应用
 docker rm -f chatgpt-api
 
 # 启动新应用
-docker run -d --env-file server/.env -p 8090:80 --name chatgpt-api chatgpt-api 
+docker run -d --env-file .env -p 8090:80 --name chatgpt-api chatgpt-api 
 
 # 清除未被使用的镜像及其数据
 docker image prune -a 
