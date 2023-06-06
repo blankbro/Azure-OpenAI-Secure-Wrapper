@@ -26,6 +26,13 @@ Install `PIP` Requirements
 pip install -r requirements.txt
 ```
 
+configure your .env as Environment variables
+
+```
+cp .env.template .env
+vi .env # or use whatever you feel comfortable with
+```
+
 run
 
 ```console
@@ -49,7 +56,7 @@ docker build . -f ChatGPT-API.Dockerfile -t chatgpt-api
 docker rm -f chatgpt-api
 
 # 启动新应用
-docker run -d --env-file .env -p 8090:80 --name chatgpt-api chatgpt-api 
+docker run -d --env-file .env -p 8089:80 --name chatgpt-api chatgpt-api 
 
 # 清除未被使用的镜像及其数据
 docker image prune -a 
