@@ -1,20 +1,9 @@
 # -*- coding: utf-8 -*-
 import json
-import os
 
-import openai
-from dotenv import load_dotenv
 from flask import Flask, jsonify, request, Response
-from langchain.chat_models import AzureChatOpenAI
-from langchain.llms import AzureOpenAI
-from langchain.schema import messages_from_dict
 
-load_dotenv()
-
-openai.api_type = "azure"
-openai.api_base = os.getenv('OPENAI_API_BASE')
-openai.api_version = "2023-03-15-preview"
-openai.api_key = os.getenv("OPENAI_API_KEY")
+from helper import completion, langchain_completion, langchain_chat_completion
 
 app = Flask(__name__)
 
@@ -39,10 +28,18 @@ def completion():
     if not prompt:
         return jsonify({'code': 400, 'msg': 'prompt 参数不能为空'})
 
-    llm = AzureOpenAI(deployment_name=os.getenv("OPENAI_COMPLETION_MODEL_DEPLOYMENT_NAME"))
-    response_text = llm(prompt)
+    return json_response({'code': 200, 'msg': 'success', 'data': langchain_completion(prompt)})
 
-    return json_response({'code': 200, 'msg': 'success', 'data': response_text.strip()})
+
+@app.route('/completion1', methods=['POST'])
+def completion1():
+    request_body = request.get_json()
+
+    prompt = request_body.get('prompt')
+    if not prompt:
+        return jsonify({'code': 400, 'msg': 'prompt 参数不能为空'})
+
+    return json_response({'code': 200, 'msg': 'success', 'data': completion(prompt)})
 
 
 @app.route('/chat/completion', methods=['POST'])
@@ -53,13 +50,7 @@ def chat_completion():
     if not messages:
         return jsonify({'code': 400, 'msg': 'messages 参数不能为空'})
 
-    llm = AzureChatOpenAI(
-        openai_api_version="2023-03-15-preview",
-        deployment_name=os.getenv("OPENAI_CHAT_MODEL_DEPLOYMENT_NAME")
-    )
-    response = llm(messages_from_dict(messages))
-
-    return json_response({'code': 200, 'msg': 'success', 'data': response.content.strip()})
+    return json_response({'code': 200, 'msg': 'success', 'data': langchain_chat_completion(messages)})
 
 
 # 启动Web服务
