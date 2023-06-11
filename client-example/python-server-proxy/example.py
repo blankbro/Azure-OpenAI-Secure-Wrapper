@@ -1,8 +1,12 @@
 import requests
 
+LOCAL_API_BASE = "http://localhost:80"
+SERVER_API_BASE = "http://localhost:8081"
+API_BASE = LOCAL_API_BASE
+
 
 def completion():
-    url = 'http://localhost:8089/completion'
+    url = f'{API_BASE}/completion'
     headers = {'Content-Type': 'application/json'}
     data = {
         "prompt": "你是谁？"
@@ -14,7 +18,7 @@ def completion():
 
 
 def langchain_completion():
-    url = 'http://localhost:8089/langchain/completion'
+    url = f'{API_BASE}/langchain/completion'
     headers = {'Content-Type': 'application/json'}
     data = {
         "prompt": "你是谁？"
@@ -26,7 +30,7 @@ def langchain_completion():
 
 
 def chat_completion():
-    url = 'http://localhost:8089/chat/completion'
+    url = f'{API_BASE}/chat/completion'
     headers = {'Content-Type': 'application/json'}
     data = {
         "messages": [{"role": "user", "content": "Hello!"}]
@@ -38,7 +42,7 @@ def chat_completion():
 
 
 def langchain_chat_completion():
-    url = 'http://localhost:8089/langchain/chat/completion'
+    url = f'{API_BASE}/langchain/chat/completion'
     headers = {'Content-Type': 'application/json'}
     data = {
         "messages": [
