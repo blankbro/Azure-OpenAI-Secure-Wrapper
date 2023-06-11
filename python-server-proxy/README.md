@@ -41,6 +41,15 @@ python main.py
 
 ### 服务器部署
 
+configure your .env as Environment variables
+
+```
+cp .env.template .env
+vi .env # or use whatever you feel comfortable with
+```
+
+run
+
 ```
 # 拉取最新代码
 git clone https://github.com/timeway/chatgpt-api.git

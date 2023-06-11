@@ -3,7 +3,8 @@ import json
 
 from flask import Flask, jsonify, request, Response
 
-from helper import completion, langchain_completion, langchain_chat_completion
+from langchain_helper import completion as langchain_completion, chat_completion as langchain_chat_completion
+from origin_helper import completion as origin_completion, chat_completion as origin_chat_completion
 
 app = Flask(__name__)
 
@@ -21,7 +22,18 @@ def json_response(json_data):
 
 
 @app.route('/completion', methods=['POST'])
-def completion():
+def completion_api():
+    request_body = request.get_json()
+
+    prompt = request_body.get('prompt')
+    if not prompt:
+        return jsonify({'code': 400, 'msg': 'prompt 参数不能为空'})
+
+    return json_response({'code': 200, 'msg': 'success', 'data': origin_completion(prompt)})
+
+
+@app.route('/langchain/completion', methods=['POST'])
+def langchain_completion_api():
     request_body = request.get_json()
 
     prompt = request_body.get('prompt')
@@ -31,19 +43,19 @@ def completion():
     return json_response({'code': 200, 'msg': 'success', 'data': langchain_completion(prompt)})
 
 
-@app.route('/completion1', methods=['POST'])
-def completion1():
+@app.route('/chat/completion', methods=['POST'])
+def chat_completion_api():
     request_body = request.get_json()
 
-    prompt = request_body.get('prompt')
-    if not prompt:
-        return jsonify({'code': 400, 'msg': 'prompt 参数不能为空'})
+    messages = request_body.get('messages')
+    if not messages:
+        return jsonify({'code': 400, 'msg': 'messages 参数不能为空'})
 
-    return json_response({'code': 200, 'msg': 'success', 'data': completion(prompt)})
+    return json_response({'code': 200, 'msg': 'success', 'data': origin_chat_completion(messages)})
 
 
-@app.route('/chat/completion', methods=['POST'])
-def chat_completion():
+@app.route('/langchain/chat/completion', methods=['POST'])
+def langchain_chat_completion_api():
     request_body = request.get_json()
 
     messages = request_body.get('messages')
