@@ -43,7 +43,7 @@ start
 python python-server-proxy/main.py
 ```
 
-### Server Run
+### Docker Run
 
 configure your .env as Environment variables
 
@@ -66,7 +66,7 @@ See [client-example/python-server-proxy/example.py](client-example/python-server
 
 通过配置 Nginx 代理 OpenAI 接口，隐藏 OPENAI_API_KEY 和 OPENAI_API_BASE 等重要信息。
 
-### Run
+### Docker Run
 
 configure your .env as Environment variables
 
@@ -83,6 +83,8 @@ sh nginx-proxy-start.sh
 
 ### Client Example / Test
 
-See [client-example/nginx-proxy/langchain_example.py](client-example/nginx-proxy/langchain_example.py)
+See [client-example/nginx-proxy/langchain_example.py](client-example/nginx-proxy/langchain_example.py) (langchain 版本)
 
-See [client-example/nginx-proxy/origin_example.py](client-example/nginx-proxy/origin_example.py)
+See [client-example/nginx-proxy/origin_example.py](client-example/nginx-proxy/origin_example.py) (openai python sdk 版本)
+
+langchain 版本 和 openai python sdk 版本，任选其一即可。

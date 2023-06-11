@@ -1,8 +1,8 @@
 import requests
 
-LOCAL_API_BASE = "http://localhost:80"
-SERVER_API_BASE = "http://localhost:8081"
-API_BASE = LOCAL_API_BASE
+API_BASE_OF_LOCAL_RUN = "http://localhost:80"
+API_BASE_OF_DOCKER_RUN = "http://localhost:8081"
+API_BASE = API_BASE_OF_LOCAL_RUN
 
 
 def completion():
