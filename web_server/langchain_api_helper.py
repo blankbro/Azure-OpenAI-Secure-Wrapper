@@ -17,14 +17,14 @@ OPENAI_COMPLETION_MODEL_DEPLOYMENT_NAME = os.getenv("OPENAI_COMPLETION_MODEL_DEP
 OPENAI_CHAT_MODEL_DEPLOYMENT_NAME = os.getenv("OPENAI_CHAT_MODEL_DEPLOYMENT_NAME")
 
 
-def completion(prompt: str):
-    llm = AzureOpenAI(deployment_name=OPENAI_COMPLETION_MODEL_DEPLOYMENT_NAME)
+def create_completion(prompt: str):
+    llm = AzureOpenAI(deployment_name=OPENAI_COMPLETION_MODEL_DEPLOYMENT_NAME, verbose=True)
     response_text = llm(prompt)
 
     return response_text.strip()
 
 
-def chat_completion(messages: List[dict]):
+def create_chat_completion(messages: List[dict]):
     llm = AzureChatOpenAI(deployment_name=OPENAI_CHAT_MODEL_DEPLOYMENT_NAME)
     response = llm(messages_from_dict(messages))
 
@@ -32,7 +32,7 @@ def chat_completion(messages: List[dict]):
 
 
 if __name__ == "__main__":
-    print(completion("你是谁"))
-    print(chat_completion([
+    print(create_completion("你是谁"))
+    print(create_chat_completion([
         {"type": "human", "data": {"content": "你是谁"}}
     ]))

@@ -6,7 +6,7 @@ COPY requirements.txt /usr/local/src/Azure-OpenAI-Secure-Wrapper/requirements.tx
 WORKDIR /usr/local/src/Azure-OpenAI-Secure-Wrapper
 RUN pip install -r requirements.txt
 
-COPY python-server-proxy/ /usr/local/src/Azure-OpenAI-Secure-Wrapper/python-server-proxy/
+COPY web-server/ /usr/local/src/Azure-OpenAI-Secure-Wrapper/web-server/
 
 EXPOSE 80
-CMD ["python", "python-server-proxy/main.py"]
+CMD ["python", "web-proxy/opanai_api_server.py"]
