@@ -20,4 +20,4 @@ async def create_chat_completion(request: ChatCompletionRequest):
 
 
 if __name__ == '__main__':
-    uvicorn.run(app, port=8080, log_level="info")
+    uvicorn.run(app, port=80, log_level="info")
