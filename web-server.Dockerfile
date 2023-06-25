@@ -9,4 +9,4 @@ RUN pip install -r requirements.txt
 COPY web_server/ /usr/local/src/Azure-OpenAI-Secure-Wrapper/web_server/
 
 EXPOSE 80
-CMD ["python", "web_server/opanai_api_server.py"]
+CMD ["uvicorn", "web_server/openai_api_server:app", "--port", "80"]
