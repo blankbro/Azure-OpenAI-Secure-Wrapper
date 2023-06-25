@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-from typing import List, Dict
 
 import openai
 from dotenv import load_dotenv
@@ -24,26 +23,36 @@ def create_completion(request: CompletionRequest):
         max_tokens=request.max_tokens,
         temperature=request.temperature,
         top_p=request.top_p,
-        n=request.n
+        n=request.n,
+        stop=request.stop,
+        stream=request.stream
     )
 
 
 def openai_chat_completion(request: ChatCompletionRequest):
-    response = openai.ChatCompletion.create(
+    return openai.ChatCompletion.create(
         deployment_id=OPENAI_CHAT_MODEL_DEPLOYMENT_NAME,
         messages=request.messages,
         max_tokens=request.max_tokens,
         temperature=request.temperature,
         top_p=request.top_p,
-        n=request.n
+        n=request.n,
+        stop=request.stop,
+        stream=request.stream
     )
-    return response
 
 
 if __name__ == "__main__":
-    print(create_completion(CompletionRequest(prompt="你是谁？")))
-    print(openai_chat_completion(ChatCompletionRequest(
-        messages=[
-            {"role": "user", "content": "你是谁？"}
-        ]))
-    )
+    # print(create_completion(CompletionRequest(prompt="你是谁？")))
+
+    # 流式输出结果
+    response = create_completion(CompletionRequest(prompt="你是谁？", stream=True))
+    for chunk in response:
+        text = chunk['choices'][0]['text']
+        print(text)
+
+    # print(openai_chat_completion(ChatCompletionRequest(
+    #     messages=[
+    #         {"role": "user", "content": "你是谁？"}
+    #     ]))
+    # )

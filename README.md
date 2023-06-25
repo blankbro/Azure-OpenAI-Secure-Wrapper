@@ -2,9 +2,9 @@
 
 Azure OpenAI 安全的包装者，旨在隐藏 OPENAI_API_KEY 和 OPENAI_API_BASE 等重要信息，给他人或组织内部提供 OpenAI 服务。
 
-本项目提供了两种方式： python-server-proxy 和 nginx-proxy
+本项目提供了两种方式： Web server 和 Nginx proxy
 
-## Python Server Proxy
+## Web server
 
 Python 编写的一个 WEB 服务，prompt 从 HTTP 请求中获取，OPENAI_API_KEY 和 OPENAI_API_BASE 从环境变量中获取，然后调用 OpenAI API，最后将结果包装返回。
 
@@ -33,14 +33,14 @@ pip install -r requirements.txt
 configure your .env as Environment variables
 
 ```
-cp python-server-proxy/.env.template python-server-proxy/.env
-vi python-server-proxy/.env # or use whatever you feel comfortable with
+cp web_server/.env.template web_server/.env
+vi web_server/.env # or use whatever you feel comfortable with
 ```
 
 start
 
 ```console
-python python-server-proxy/main.py
+uvicorn openai_api_server:app --host 0.0.0.0 --port 80
 ```
 
 ### Docker Run
@@ -48,19 +48,19 @@ python python-server-proxy/main.py
 configure your .env as Environment variables
 
 ```
-cp python-server-proxy/.env.template python-server-proxy/.env
-vi python-server-proxy/.env # or use whatever you feel comfortable with
+cp web_server/.env.template web_server/.env
+vi web_server/.env # or use whatever you feel comfortable with
 ```
 
 run
 
 ```
-sh python-server-proxy-start.sh
+sh web-server-start.sh
 ```
 
 ### Client Example / Test
 
-See [client-example/python-server-proxy/example.py](client-example/python-server-proxy/example.py)
+See [client-example/web_server/example.py](client-example/web_server/example.py)
 
 ## Nginx Proxy
 
@@ -71,20 +71,20 @@ See [client-example/python-server-proxy/example.py](client-example/python-server
 configure your .env as Environment variables
 
 ```
-cp nginx-proxy/.env.template nginx-proxy/.env
-vi nginx-proxy/.env # or use whatever you feel comfortable with
+cp nginx_proxy/.env.template nginx_proxy/.env
+vi nginx_proxy/.env # or use whatever you feel comfortable with
 ```
 
 start
 
 ```
-sh nginx-proxy-start.sh
+sh nginx_proxy-start.sh
 ```
 
 ### Client Example / Test
 
-See [client-example/nginx-proxy/langchain_example.py](client-example/nginx-proxy/langchain_example.py) (langchain 版本)
+See [client_example/nginx_proxy/langchain_example.py](client_example/nginx_proxy/langchain_example.py) (langchain 版本)
 
-See [client-example/nginx-proxy/origin_example.py](client-example/nginx-proxy/origin_example.py) (openai python sdk 版本)
+See [client_example/nginx_proxy/openai_api_example.py](client_example/nginx_proxy/openai_api_example.py) (openai python sdk 版本)
 
 langchain 版本 和 openai python sdk 版本，任选其一即可。

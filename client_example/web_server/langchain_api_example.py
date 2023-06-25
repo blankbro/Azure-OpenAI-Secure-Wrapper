@@ -1,7 +1,7 @@
 import requests
 
 API_BASE_OF_LOCAL_RUN = "http://localhost:80"
-API_BASE_OF_DOCKER_RUN = "http://localhost:8081"
+API_BASE_OF_DOCKER_RUN = "http://localhost:8080"
 API_BASE = API_BASE_OF_LOCAL_RUN
 
 
