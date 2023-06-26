@@ -29,7 +29,7 @@ def create_completion(request: CompletionRequest):
     )
 
 
-def openai_chat_completion(request: ChatCompletionRequest):
+def create_chat_completion(request: ChatCompletionRequest):
     return openai.ChatCompletion.create(
         deployment_id=OPENAI_CHAT_MODEL_DEPLOYMENT_NAME,
         messages=request.messages,
@@ -42,17 +42,45 @@ def openai_chat_completion(request: ChatCompletionRequest):
     )
 
 
+async def create_chat_completion_stream(request: ChatCompletionRequest):
+    response = await openai.ChatCompletion.acreate(
+        deployment_id=OPENAI_CHAT_MODEL_DEPLOYMENT_NAME,
+        messages=request.messages,
+        max_tokens=request.max_tokens,
+        temperature=request.temperature,
+        top_p=request.top_p,
+        n=request.n,
+        stop=request.stop,
+        stream=request.stream
+    )
+
+    async for chunk in response:
+        yield chunk
+        # await asyncio.sleep(0.2)
+
+
 if __name__ == "__main__":
     # print(create_completion(CompletionRequest(prompt="你是谁？")))
 
     # 流式输出结果
-    response = create_completion(CompletionRequest(prompt="你是谁？", stream=True))
-    for chunk in response:
-        text = chunk['choices'][0]['text']
-        print(text)
+    # response = create_completion(CompletionRequest(prompt="你是谁？", stream=True))
+    # for chunk in response:
+    #     text = chunk['choices'][0]['text']
+    #     print(text)
 
-    # print(openai_chat_completion(ChatCompletionRequest(
-    #     messages=[
-    #         {"role": "user", "content": "你是谁？"}
-    #     ]))
-    # )
+    response = create_chat_completion(
+        ChatCompletionRequest(
+            messages=[
+                {"role": "user", "content": "你是谁？"}
+            ],
+            stream=True
+        )
+    )
+
+    for chunk in response:
+        choices_0 = chunk['choices'][0]
+        if choices_0['finish_reason'] and choices_0['finish_reason'] == 'stop':
+            print("end")
+        delta = choices_0['delta']
+        if "content" in delta:
+            print(delta['content'])
