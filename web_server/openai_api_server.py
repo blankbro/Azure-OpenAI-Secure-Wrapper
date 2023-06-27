@@ -97,13 +97,14 @@ async def create_completion(ai_request: CompletionRequest):
         else:
             return openai_api_helper.create_completion(ai_request)
     except Exception as e:
-        traceback.print_exception(e)
+        traceback.print_stack()
         return create_error_response(ErrorCode.INTERNAL_ERROR, str(e))
 
 
 @app.post("/v1/chat/completions")
 async def create_chat_completion(ai_request: ChatCompletionRequest):
     try:
+        i = 1 / 0
         if ai_request.stream:
             response = StreamingResponse(
                 generate_chat_completion_stream_generator(ai_request),
@@ -113,7 +114,7 @@ async def create_chat_completion(ai_request: ChatCompletionRequest):
         else:
             return openai_api_helper.create_chat_completion(ai_request)
     except Exception as e:
-        traceback.print_exception(e)
+        traceback.print_stack()
         return create_error_response(ErrorCode.INTERNAL_ERROR, str(e))
 
 
