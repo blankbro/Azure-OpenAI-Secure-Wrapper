@@ -59,7 +59,15 @@ async def create_chat_completion_stream(request: ChatCompletionRequest):
         # await asyncio.sleep(0.2)
 
 
+def test():
+    from datetime import datetime
+    print("当前时间：", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    print(create_completion(CompletionRequest(prompt="你是谁？")))
+    print("当前时间：", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+
+
 if __name__ == "__main__":
+    test()
     # print(create_completion(CompletionRequest(prompt="你是谁？")))
 
     # 流式输出结果
@@ -68,19 +76,19 @@ if __name__ == "__main__":
     #     text = chunk['choices'][0]['text']
     #     print(text)
 
-    response = create_chat_completion(
-        ChatCompletionRequest(
-            messages=[
-                {"role": "user", "content": "你是谁？"}
-            ],
-            stream=True
-        )
-    )
-
-    for chunk in response:
-        choices_0 = chunk['choices'][0]
-        if choices_0['finish_reason'] and choices_0['finish_reason'] == 'stop':
-            print("end")
-        delta = choices_0['delta']
-        if "content" in delta:
-            print(delta['content'])
+    # response = create_chat_completion(
+    #     ChatCompletionRequest(
+    #         messages=[
+    #             {"role": "user", "content": "你是谁？"}
+    #         ],
+    #         stream=True
+    #     )
+    # )
+    #
+    # for chunk in response:
+    #     choices_0 = chunk['choices'][0]
+    #     if choices_0['finish_reason'] and choices_0['finish_reason'] == 'stop':
+    #         print("end")
+    #     delta = choices_0['delta']
+    #     if "content" in delta:
+    #         print(delta['content'])
