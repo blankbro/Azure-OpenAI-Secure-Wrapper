@@ -4,6 +4,7 @@ import traceback
 
 import fastapi
 import uvicorn
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse, JSONResponse
 
 import openai_api_helper
@@ -20,6 +21,13 @@ from openai_api_protocol import (
 )
 
 app = fastapi.FastAPI()
+# 配置允许跨域请求
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 允许所有来源的请求，你也可以设置具体的来源
+    allow_methods=["*"],  # 允许所有 HTTP 方法
+    allow_headers=["*"],  # 允许所有的请求头
+)
 
 
 def create_error_response(code: int, message: str) -> JSONResponse:
