@@ -89,7 +89,7 @@ async def generate_chat_completion_stream_generator(ai_request: ChatCompletionRe
         )
 
         yield f"data: {finish_chunk.json(exclude_unset=True, ensure_ascii=False)}\n\n"
-        await asyncio.sleep(random.uniform(0.01, 0.1))
+        # await asyncio.sleep(random.uniform(0.01, 0.1))
 
     yield "data: [DONE]\n\n"
 
